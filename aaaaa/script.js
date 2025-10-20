@@ -1,4 +1,3 @@
-//criação das 
 const sons = {
     'A' : 'boom.wav',
     'S' : 'clap.wav',
@@ -10,12 +9,41 @@ const sons = {
     'J' : 'snare.wav',
     'K' : 'tink.wav',
     'L' : 'tom.wav',
-}
-//função para criar um div para cada tecla 
-const criarDiv = (sons) =>{
-    div.classlist('key')
-    div.textcontent = texto
-}
+};
 
-exibir(sons);
-document.getElementById('container')
+const criarDiv = (texto) => {
+    const div = document.createElement('div'); 
+    div.classList.add('key');
+    div.textContent = texto; 
+    div.id = texto;
+
+    // Evento de clique
+    div.addEventListener('click', () => {
+        tocarSom(texto);
+    });
+
+    document.getElementById('container').appendChild(div); 
+};
+
+Object.keys(sons).forEach(criarDiv);
+
+const adicionarEfeito = (letra) => {
+    const div = document.getElementById(letra);
+    if (!div) return;
+
+    div.classList.add('active');
+    setTimeout(() => div.classList.remove('active'), 150);
+};
+
+const tocarSom = (letra) => {
+    const som = sons[letra];
+    if (!som) return;
+    const audio = new Audio(`sons/${som}`);
+    audio.play();
+    adicionarEfeito(letra);
+};
+
+document.addEventListener('keydown', (event) => {
+    const letra = event.key.toUpperCase();
+    tocarSom(letra);
+});
